@@ -19,12 +19,14 @@ def battery_info():
 
 def show_warning():
     tk = Tk()
+    tk.iconbitmap('C:/Users/polsk/Desktop/programmer things/Python programs/Small projects/battery alert/Battery-alert-/noun-battery-alert-1601231.ico')
     warn = Label(tk, text = 'LOW BATTERY LEVEL', font = ('Calibri', 60), fg = 'red', bg = '#242323')
     warn.pack()
     tk.mainloop()
     
 def show_startup_info():
     tk = Tk()
+    tk.iconbitmap('C:/Users/polsk/Desktop/programmer things/Python programs/Small projects/battery alert/Battery-alert-/noun-battery-alert-1601231.ico')
     warn = Label(tk, text = 'Im running!', font = ('Calibri', 20), fg = '#505bb5', bg = '#242323')
     warn.pack()
     tk.after(3000, lambda: tk.destroy())
@@ -32,6 +34,7 @@ def show_startup_info():
     
 def show_threat():
     tk = Tk()
+    tk.iconbitmap('C:/Users/polsk/Desktop/programmer things/Python programs/Small projects/battery alert/Battery-alert-/noun-battery-alert-1601231.ico')
     warn = Label(tk, text = '15%!!! PLUG IN PSU!!!', font = ('Calibri', 60), fg = 'red', bg = '#242323')
     warn.pack()
     tk.mainloop()

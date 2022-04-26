@@ -46,10 +46,9 @@ def main():
         print(f'Pozostało {procent}%, starczy na: {bat_left}')
         
         # dorób funkcję wykorzystującą parametr isPowered
-        
-        if procent <= 20: show_warning()
-        
-        elif procent <= 15: show_threat()
+        while isPowered is not True:
+            if procent == 19: show_warning()
+            elif procent <= 15: show_threat()
         
         time.sleep(15)
     

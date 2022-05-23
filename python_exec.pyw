@@ -2,11 +2,15 @@ import psutil
 import time
 from tkinter import *
 from PIL import ImageTk, Image
+from ctypes import windll
+
+windll.shcore.SetProcessDpiAwareness(1) # pozwala na wyostrzenie tekstu
 
 tk = Tk()
 tk.title('Battery checker')
-tk.geometry('250x200')
+tk.geometry('350x200')
 tk.config(bg = '#453534')
+
 
 def convertTime(sec):
     mins, sec = divmod(sec, 60) 
@@ -17,27 +21,34 @@ def convertTime(sec):
 def show_warning():
     global top_warn
     if top_warn:
+        time.sleep(5)
         top_warn.destroy()
-    top_warn = Toplevel(tk)
-    warn = Label(tk, text = 'LOW BATTERY LEVEL', font = ('Calibri', 60), fg = 'red', bg = '#453534')
-    warn.pack()
+    else:
+        top_warn = Toplevel()
+        warn = Label(top_warn, text = 'LOW BATTERY LEVEL', font = ('Calibri', 60), fg = 'red', bg = '#453534')
+        warn.pack()
     
     
 def show_threat():
     global top_threat
     if top_threat:
+        time.sleep(5)
         top_threat.destroy() # to spowoduje, że jeżeli aplikacja została wyświetlona, to warunek ją zamknie
-    top_threat = Toplevel(tk)
-    warn = Label(tk, text = '15%!!! PLUG IN PSU!!!', font = ('Calibri', 60), fg = 'red', bg = '#453534')
-    warn.pack()
+    else:
+        top_threat = Toplevel()
+        warn = Label(top_threat, text = '15%!!! PLUG IN PSU!!!', font = ('Calibri', 60), fg = 'red', bg = '#453534')
+        warn.pack()
 
 
 def show_procent():
-    battery = psutil.sensors_battery()
+    battery = psutil.sensors_battery() # zmienna musi być zawsze zdefiniowana wewnątrz funkcji, inaczej się wszystko jebie
     procent = battery.percent
     
     procent_ent.config(text = f'{procent}%')
     procent_ent.after(1000, show_procent)
+
+    if procent <= 20: show_warning()
+    if procent == 15: show_threat()
 
 
 def show_state():
@@ -55,16 +66,15 @@ def show_left():
     time_ent.config(text = f'{bat_left} h')
     time_ent.after(1000, show_left)
 
-'''
-def logic_1s():
-    bat = psutil.sensors_battery()
-    procent = bat.percent
-    isPowered = bat.power_plugged
+# def logic_1s():
+#     bat = psutil.sensors_battery()
+#     procent = bat.percent
+#     isPowered = bat.power_plugged
         
-    if not isPowered and procent <= 25: show_warning()
-    if not isPowered and procent == 15: show_threat()
-    tk.after(1000, logic_1s)
-'''    
+#     if not isPowered and procent <= 95: print('Working!')
+#     if not isPowered and procent == 15: show_threat()
+#     tk.after(1000, logic_1s)
+
 
 if __name__ == '__main__':
     # while True:
@@ -90,7 +100,7 @@ if __name__ == '__main__':
     procent_ent.grid(row = 0, column = 1)
     show_procent()
     
-    status_lbl = Label(tk, text = 'Is powered: ', font = ('Calibri', 12), fg = '#f2c821', bg = '#453534')
+    status_lbl = Label(tk, text = 'Podłączony: ', font = ('Calibri', 12), fg = '#f2c821', bg = '#453534')
     status_lbl.grid(row = 1, column = 0)
 
     status_ent = Label(tk, text = '' ,font = ('Calibri', 12), fg = '#f2c821', bg = '#453534')
@@ -104,5 +114,6 @@ if __name__ == '__main__':
     time_ent.grid(row = 2, column = 1)
     show_left()
 
+    tk.attributes('-topmost', True) # sprawia, że aplikacja jest zawsze widoczna 
     
     tk.mainloop()

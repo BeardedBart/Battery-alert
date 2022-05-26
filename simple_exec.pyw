@@ -19,7 +19,7 @@ def showPercent():
 win = Tk()
 win.overrideredirect(1)
 
-lbl = Label(win, text = '', font = ('Calibri', 20), fg = 'white')
+lbl = Label(win, text = '', font = ('Cambria', 20), fg = 'white')
 lbl.pack()
 showPercent()
 

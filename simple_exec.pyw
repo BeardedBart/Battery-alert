@@ -8,18 +8,21 @@ windll.shcore.SetProcessDpiAwareness(1)
 def showPercent():
     batt = psutil.sensors_battery()
     procent = batt.percent
+    state = batt.power_plugged
     
     if procent <= 20:
         lbl.config(text = f'{procent}%', fg = 'red')
+    elif state == True:
+        lbl.config(text = f'{procent}%', fg = 'green')
     else:
-        lbl.config(text = f'{procent}%')
+        lbl.config(text = f'{procent}%', fg = 'white')
         
     lbl.after(1000, showPercent)
 
 win = Tk()
 win.overrideredirect(1)
 
-lbl = Label(win, text = '', font = ('Cambria', 20), fg = 'white')
+lbl = Label(win, text = '', font = ('Open 24 Display St', 20), fg = 'white')
 lbl.pack()
 showPercent()
 
